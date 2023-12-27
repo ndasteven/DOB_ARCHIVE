@@ -20,6 +20,7 @@
                 $('.submitImport').prop('disabled', true); // Désactivez l'élément file-click
                 $('.file-click').prop('disabled', true);
                 $('.file-click_ecole').prop('disabled', true);
+                $('.file-click_dren').prop('disabled', true);
                 
             }
     })
@@ -29,6 +30,7 @@
                     $('.submitImport').prop('disabled', false); // Activez l'élément
                     $('.file-click').prop('disabled', false); // Activez l'élément
                     $('.file-click_ecole').prop('disabled', false); // Activez l'élément
+                    $('.file-click_dren').prop('disabled', false); // Activez l'élément
                     
                 }
         })

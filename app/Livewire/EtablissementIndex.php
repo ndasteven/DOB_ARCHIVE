@@ -132,7 +132,7 @@ class EtablissementIndex extends Component
     public function storeEtablissement(){
 
         $validate = $this->validate([
-            'CODSERVs'=>'required|min:1|integer',
+            'CODSERVs'=>'required|min:6',
             'NOMCOMPLs'=>'required|min:3', 
             'GENREs'=>'required|min:1',
             'CODE_DREN'=>'required:min:1|integer',    
@@ -164,10 +164,10 @@ class EtablissementIndex extends Component
     public function updateEtablissement(){
 
         $validate = $this->validate([
-            'CODSERVs'=>'required|min:1|integer',
+            'CODSERVs'=>'required|min:6',
             'NOMCOMPLs'=>'required|min:3', 
             'GENREs'=>'required|min:1',
-            'CODE_DREN'=>'required:min:1|integer',    
+            'CODE_DREN'=>'required:min:1',    
         ]);
         $schoolInfo = ecole::find($this->ide);
         if($schoolInfo->update($validate)){

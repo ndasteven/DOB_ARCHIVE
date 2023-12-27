@@ -28,9 +28,10 @@
       </div>
       <div class="mt-3">
         <div class="btn-group-vertical  col-12" role="group" aria-label="Vertical button group">
-          <button type="button " class="btn btn-sm btn-outline-primary col-12 mt-2 " data-bs-toggle="modal" data-bs-target="#importFile">Importer des élèves</button>
+          <button type="button " class="btn btn-sm btn-outline-secondary col-12 mt-2 " data-bs-toggle="modal" data-bs-target="#importFile">Importer des élèves</button>
           <button type="button " class="btn btn-sm btn-outline-primary col-12 mt-2 " data-bs-toggle="modal" data-bs-target="#importFileecole">Importer des écoles</button>
-          <button type="button " class="btn btn-sm btn-outline-primary col-12 mt-2" wire:click="create()"  data-bs-toggle="modal" data-bs-target="#staticBackdrop">Ajouter des utilisateurs</button>
+          <button type="button " class="btn btn-sm btn-outline-info col-12 mt-2 " data-bs-toggle="modal" data-bs-target="#importFiledren">Importer des dren</button>
+          <button type="button " class="btn btn-sm btn-outline-success col-12 mt-2" wire:click="create()"  data-bs-toggle="modal" data-bs-target="#staticBackdrop">Ajouter des utilisateurs</button>
         </div> 
       </div>
       <div class="d-flex justify-content-center"><small><livewire:file-attente></small> </div>
@@ -399,6 +400,79 @@
 </div>
 <!--Fin modal d'importation ecole-->
 
+<!--Modal d'importation DREN-->
+
+<div class="modal fade " id="importFiledren" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" wire:ignore.self>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">      
+      <div class="modal-header bg-primary">
+        <h1 class="modal-title fs-5 text-white" id="exampleModalLabel">Importation des DREN dans la base</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+          @if (session()->has('importDrenOK'))
+            <div class="alert alert-warning mt-2 mb-2">
+              {{ session('importDrenOK') }}
+            </div>
+          @endif
+        <div class="mb-3">
+          <div class="row">
+            <div class="col-11 col-md-6 mx-auto">
+              <button disabled class="btn file-click_dren">
+                 <!--progress bar montrannt la progression du fichier selection dans le fichier temporaire de livewire ivewire_temp-->
+                @if ($uploadProgress>0)
+                <div class="show_progressbar">
+                  <p>Téléchargement en cours...</p>
+                  <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: {{$uploadProgress}}%">@if($uploadProgress>0) {{$uploadProgress}}% @endif  @if($uploadProgress==100) patientez svp @endif</div>
+                  </div>
+                </div> 
+                @else <span style="color:gray">selection fichier excel</span><br> 
+                @endif
+                @if (Str::length($file) > 2)
+                <span  style="color: green"><small>fichier chargé</small> </span><br>
+                @else
+                <span style="color: red"><small>pas de fichier chargé</small> </span><br>
+                @endif
+            <!--Fin de progressbar-->
+                <img class="shadow-lg" src="asset/img/excel-logo.png" style="max-width: 100%" alt=""> 
+                <div style="text-align: center">{{$checkFile}}</div>
+              </button>
+              
+            </div>
+          </div>
+          <form wire:submit.prevent="importDren" enctype="multipart/form-data">
+           
+            <div class="row">
+              <input style="display:none"  type="file" class="form-control @error('file') is-invalid @enderror file_dren" @this.on('uploaded', 'fileUploaded') wire:model="file">
+              <div style="text-align: center">
+                <small><livewire:file-attente></small> <br>
+                @error('file') <small class="error" style="color:red; font-weight:bold">{{ $message }}</small> @enderror
+                <br><small>type de fichier <b class="text-danger">*</b>: <b>XLSL, XLS</b> , taille maximale: <b>5mo</b> </small><br>
+              </div>
+            </div>
+            <div class="mt-3">
+              @if (Str::length($file) > 2)
+              <div class="col-12 col-md-6 mx-auto">
+                <button  disabled class="btn col-12 btn-primary submitImport" type="submit">Importation fichier Excel</button>
+              </div>
+              @endif
+            </div>            
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer mt-5">
+        <span wire:loading style="margin: 0; float-end">
+          <div class="spinner-border text-warning mt-2" role="status">
+          </div>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Fin modal d'importation DREN-->
+
 </div>
 
 <script>
@@ -410,6 +484,9 @@
     }
     if ($('.file_ecole').val().length>2) {
       var fileName=$('.file_ecole').val().split("\\").pop()
+    }
+    if ($('.file_dren').val().length>2) {
+      var fileName=$('.file_dren').val().split("\\").pop()
     }
       @this.set('uploadProgress', event.detail.progress);
       @this.set('checkFile',fileName)
@@ -444,6 +521,9 @@
    })
    $('.file-click_ecole').on('click',function(){
     $('.file_ecole').click()
+   })
+   $('.file-click_dren').on('click',function(){
+    $('.file_dren').click()
    })
   
   })

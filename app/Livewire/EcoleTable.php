@@ -86,9 +86,7 @@ final class EcoleTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('TYPE', 'GENREs')
-                ->sortable()
-                ->searchable(),
+           
 
             Column::make('CODE DREN', 'CODE_DREN')
                 ->sortable()
@@ -110,7 +108,7 @@ final class EcoleTable extends PowerGridComponent
             Filter::inputText('CODE_DREN', 'ecoles.CODE_DREN')->operators(['contains']),
             Filter::inputText('CODSERVs')->operators(['contains']),
             Filter::inputText('NOMCOMPLs')->operators(['contains']),
-            Filter::inputText('GENREs')->operators(['contains']),
+            
             Filter::inputText('nom_dren')->operators(['contains']),
             Filter::datetimepicker('created_at'),
         ];

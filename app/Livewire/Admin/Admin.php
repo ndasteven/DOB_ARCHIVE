@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Imports\drenImport;
 use App\Imports\ecoleImport;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -154,7 +155,7 @@ class Admin extends Component
     }
     public function importEleve(){
         $import=$this->validate([
-            'file'=>'required|mimes:xlsx, xls|max:10240'
+            'file'=>'required|mimes:xlsx, xls|max:15240'
         ]);
         if($this->file){
             $data = Excel::queueImport(new elevesImport, $this->file);
@@ -169,7 +170,7 @@ class Admin extends Component
     }
     public function importEcole(){
         $import=$this->validate([
-            'file'=>'required|mimes:xlsx, xls|max:10240'
+            'file'=>'required|mimes:xlsx, xls|max:15240'
         ]);
         if($this->file){
             $data = Excel::queueImport(new ecoleImport, $this->file);
@@ -181,6 +182,23 @@ class Admin extends Component
         }
  
         session()->flash("importEcoleOK", "Verification du fichier importé...");
+    }
+
+    public function importDren(){
+        
+        $import=$this->validate([
+            'file'=>'required|mimes:xlsx, xls|max:15240'
+        ]);
+        if($this->file){
+            $data = Excel::queueImport(new drenImport, $this->file);
+            $this->file = '';
+            $this->checkFile='';
+            
+        }else{
+            session()->flash("importDrenOK", "fichier erroné!");
+        }
+ 
+        session()->flash("importDrenOK", "Verification du fichier importé...");
     }
 
 

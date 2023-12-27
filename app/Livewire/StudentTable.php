@@ -117,7 +117,7 @@ final class studentTable extends PowerGridComponent
             //->addColumn('ecole_id')
             ->addColumn('eleve_classe')
             ->addColumn('serie')
-            ->addColumn('annee')
+            ->addColumn('eleve_annee')
             ->addColumn('fiche',function(eleve $fiche){
                 if($fiche->fiche_nom){
                     return(<<<HTML
@@ -168,7 +168,7 @@ final class studentTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Année orientation', 'annee', 'eleves.annee')
+            Column::make('Année orientation', 'eleve_annee', 'eleves.annee')
                 ->sortable()
                 ->searchable(),
             Column::make('Fiches d\'orientations', 'fiche'),
