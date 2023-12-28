@@ -67,7 +67,7 @@ final class studentTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        if(strlen($this->shareAnnee)>1 && strlen($this->shareNiveau)>1){
+        
             return eleve::query()
             ->leftJoin('ecoles', function($ecole){
                 $ecole->on('eleves.ecole_A','=','ecoles.id');  
@@ -81,22 +81,7 @@ final class studentTable extends PowerGridComponent
             ->select('eleves.*','eleves.id as id_eleves', 'eleves.classe as eleve_classe','eleves.matricule as eleve_matricule','eleves.nom as eleve_nom', 'eleves.prenom as eleve_prenom',
              'ecoles.NOMCOMPLs as ecole_nom', 'fiches.nom as fiche_nom','fiches.fiche_nom',
                 'eleves.annee as eleve_annee');  
-        }else{
-        return eleve::query()
-        ->leftJoin('ecoles', function($ecole){
-            $ecole->on('eleves.ecole_A','=','ecoles.id');  
-        })
-        
-        ->leftJoin('fiches', function($fiche){
-            $fiche->on('eleves.fiche_id','=','fiches.id');
-        })
-        ->select('eleves.*','eleves.id as id_eleves', 'eleves.classe as eleve_classe','eleves.matricule as eleve_matricule','eleves.nom as eleve_nom', 'eleves.prenom as eleve_prenom',
-        'ecoles.NOMCOMPLs as ecole_nom', 'fiches.nom as fiche_nom','fiches.fiche_nom',
-        'eleves.annee as eleve_annee');
-        }
-        
-        
-        
+ 
     }
 
     public function relationSearch(): array
@@ -134,7 +119,7 @@ final class studentTable extends PowerGridComponent
             ->addColumn('eleve_classe')
             ->addColumn('serie')
             ->addColumn('eleve_annee', function(eleve $eleve){
-                if($eleve->annee==null){
+                if($eleve->annee=='0001'){
                     return 'pas année';
                 }
                 return $eleve->annee;
