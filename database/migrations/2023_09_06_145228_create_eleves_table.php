@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('genre')->nullable();
             $table->string('dateNaissance')->nullable();
             $table->string('ecole_origine')->nullable();
-            $table->integer('annee')->nullable();
+            $table->year('annee')->nullable();
             $table->timestamps();
         });
     }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('ecoles', function (Blueprint $table) {
             $table->id();
-            $table->integer('CODSERVs');
+            $table->string('CODSERVs');
             $table->string('NOMCOMPLs');
             $table->string('GENREs')->nullable();
             $table->integer('CODE_DREN');
