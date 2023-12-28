@@ -54,7 +54,7 @@ class elevesImport implements ToCollection,   WithBatchInserts, WithChunkReading
                 'prenom'=>$row['prenom'],
                 'annee'=>(isset($row['annee_orientation']) && $row['annee_orientation'] != 'null') ? $row['annee_orientation']  : 0001,
                 'genre'=>$row['genre'],
-                'dateNaissance' => (isset($row['datenaissance']) && $row['datenaissance'] != 'null') ? Date::excelToDateTimeObject($row['datenaissance'])  : '0000-01-01',
+                'dateNaissance' => (isset($row['datenaissance']) && $row['datenaissance'] != 'null') ? $row['datenaissance']  : '0000-01-01',
                 'serie'=>isset($row['serie']) ? $row['serie'] : null,
                 'ecole_origine'=>$row['ecole_origine'],
                 'ecole_id' => (strlen($row['ecole_origine']) > 0) ? 
