@@ -50,10 +50,7 @@ table{
             </div>
         </div>
         
-        <!--fin liste des élèves -->
-        <!-- modal formulaire inscription-->
-        @include('livewire.modal_form_students')
-        <!--fin modal -->
+   
         <!-- modal info student-->
         @include('livewire.modalStudentInfos')
         <!--fin modal -->
