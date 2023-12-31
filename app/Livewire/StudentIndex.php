@@ -315,22 +315,15 @@ class StudentIndex extends Component
         $this->shareAnnee = session('shareYear');
         $this->shareNiveau = session('shareNiveau');
         
-        $words= '%'.$this->search.'%' ;
-        $students=eleve::where('nom','like', $words)
-        ->orWhere('prenom','like', $words)
-        ->orWhere('matricule','like', $words)
-        ->with('eleve_ecole_A')
-        ->with('eleve_fiche')
-        ->paginate($this->perPage);
-        $studentCount=$students->count();
+     
         return view('livewire.student-index', [
-            'students'=> $students,
+            
 
             'ecole'=>ecole::select('id','NOMCOMPLs')->get(), 
             'fiche'=> fiche::with('fiche_ecole')->with('fiche_dren')
             ->orderBy('created_at', 'ASC')
             ->get(),
-            'studentCount'=>$studentCount,
+           
             'hasRole'=>$this->hasRole
             
         ]);

@@ -148,15 +148,17 @@
       
       function counter($nombre, $idselect, $timer, $pas) {
           let count = 0; // Valeur initiale
+          let iteration = 0
           const targetValue = $nombre; // La valeur cible que vous avez obtenue de votre route Laravel
   
           const countElement = document.getElementById($idselect);
   
           const intervalId = setInterval(function() {
               count+=$pas;
+              iteration+=1
               countElement.innerText = count;
-  
-              if (count >= targetValue) {
+
+              if (iteration >= 10) {
                   clearInterval(intervalId);
                   countElement.innerText = $nombre
               }

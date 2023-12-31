@@ -112,8 +112,12 @@ final class studentTable extends PowerGridComponent
                         return 'pas de date de naissance';
                     }  
                 }
+                if(strtotime($eleve->dateNaissance)!=false){
+                    return $date->format('d-m-Y');     
+                }else{
+                    return 'pas de date de naissance'; 
+                }
                 
-                return $date->format('d-m-Y');
             })
             //->addColumn('ecole_id')
             ->addColumn('eleve_classe')

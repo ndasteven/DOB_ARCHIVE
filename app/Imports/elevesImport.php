@@ -52,7 +52,7 @@ class elevesImport implements ToCollection,   WithBatchInserts, WithChunkReading
                 'matricule'=>(!eleve::where('matricule', $row['matricule'])->exists())? $row['matricule'] : '',
                 'nom'=>$row['nom'],
                 'prenom'=>$row['prenom'],
-                'annee'=>(isset($row['annee_orientation']) && $row['annee_orientation'] != 'null') ? $row['annee_orientation']  : 0001,
+                'annee'=>(isset($row['annee_orientation']) && $row['annee_orientation'] != 'null') ? $row['annee_orientation']  : '0001',
                 'genre'=>$row['genre'],
                 'dateNaissance' => (isset($row['datenaissance']) && $row['datenaissance'] != 'null') ? $row['datenaissance']  : '0000-01-01',
                 'serie'=>isset($row['serie']) ? $row['serie'] : null,
