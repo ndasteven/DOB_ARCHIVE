@@ -1,5 +1,6 @@
 <div class="modal fade" id="multipleEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" wire:ignore.self>
-
+  <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet" wire:ignore.self>
+  <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js" wire:ignore.self></script>
   <div class="modal-dialog modal-fullscreen">
     <div class="modal-content">
       <div class="modal-header">
@@ -127,7 +128,12 @@
             <div class="col mb-3">
               <label for="formFile" class="form-label " @error('ecole_id') style="color: rgb(192, 79, 79)" @enderror> Selectionner un etablissement d'origine</label>
               <div wire:ignore>
-                
+                <select disabled class="form-select @error('ecole_id') is-invalid @enderror" id="select_ecole_O" wire:model='ecole_id' autocomplete="off">
+                  <option value="">selectionner l'école d'origine</option>
+                  @foreach ($ecole as $item)
+                  <option value="{{$item->id}}" style="z-index: 1;" >{{$item->NOMCOMPLs}}</option>
+                  @endforeach
+                </select>
               </div>
               <div class="invalid-feedback">
                 @error('ecole_id')Selectionner un établissement d'origine @enderror"
@@ -137,7 +143,12 @@
               <div class="col mb-3">
                 <label for="formFile" class="form-label"  @error('ecole_A') style="color: rgb(192, 79, 79)" @enderror>Selectionner un etablissement d'accueil</label>
                 <div wire:ignore>
-                  
+                  <select class="form-select @error('ecole_A') is-invalid @enderror" id="select_ecole_A" wire:model='ecole_A' autocomplete="off">
+                    <option value="">selectionner l'école d'accueil</option>
+                    @foreach ($ecole as $item)
+                    <option value="{{$item->id}}" style="z-index: 1;" >{{$item->NOMCOMPLs}}</option>
+                    @endforeach
+                  </select>
                 </div>
                 <div class="invalid-feedback">
                   @error('ecole_A')Selectionner un établissement accueil @enderror"
@@ -149,7 +160,12 @@
           <div class="col mb-3" wire:loading.class="disabled">
             <label for="formFile" class="form-label"  @error('fiche_id') style="color: rgb(192, 79, 79)" @enderror>Selectionner la fiche d'orientation de l'élève</label>
             <div wire:ignore>
-              
+              <select class="form-select @error('fiche_id') is-invalid @enderror" id="select_fiche" wire:model='fiche_id' autocomplete="off">
+                <option value="">selectionner la fiche d'orientation</option>fiche_ecole
+                @foreach ($fiche as $item)
+                <option value="{{$item->id}}" style="z-index: 1;" >{{$item->created_at}}  {{$item->nom}} | {{$item->classe}} | {{$item->annee}} | {{$item['fiche_ecole']->NOMCOMPLs}} | {{$item['fiche_dren']->nom_dren}}  </option>
+                @endforeach
+              </select>
             </div>
             <div class="invalid-feedback">
               @error('fiche_id')Selectionner la fiche d'orientation @enderror"

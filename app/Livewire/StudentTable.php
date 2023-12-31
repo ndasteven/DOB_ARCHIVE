@@ -107,10 +107,15 @@ final class studentTable extends PowerGridComponent
                 if($eleve->dateNaissance==null ){
                     return 'pas de date de naissance';
                 }else{
-                  $date = Carbon::parse($eleve->dateNaissance);
+                    if(strtotime($eleve->dateNaissance)!=false){
+                        $date = Carbon::parse($eleve->dateNaissance);
                     if ($date->year=='2023' or $date->year=='0000' or $date->year>=date('Y')) {
                         return 'pas de date de naissance';
-                    }  
+                    }    
+                    }else{
+                        return 'pas de date de naissance'; 
+                    }
+                   
                 }
                 if(strtotime($eleve->dateNaissance)!=false){
                     return $date->format('d-m-Y');     
@@ -282,12 +287,12 @@ final class studentTable extends PowerGridComponent
         Button::add()
         ->slot('Modification multiple')
         ->id()
-        ->class('btn btn-sm  checkinfo')
+        ->class('btn btn-sm mt-2  checkinfo')
         ->dispatch('multipleSetting',['ids'=>$this->showCheckBox()->checkedValues()]),
 
         Button::add()
         ->slot('Ajouter élève')
-        ->class('btn btn-sm  checkinfo')
+        ->class('btn btn-sm  mt-2 checkinfo')
         ->dispatch('addStudent',[])
          ]; 
         }else{

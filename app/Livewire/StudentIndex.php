@@ -319,10 +319,10 @@ class StudentIndex extends Component
         return view('livewire.student-index', [
             
 
-            'ecole'=>ecole::select('id','NOMCOMPLs')->get(), 
+            'ecole'=>ecole::select('id','NOMCOMPLs')->take(3)->get(), 
             'fiche'=> fiche::with('fiche_ecole')->with('fiche_dren')
             ->orderBy('created_at', 'ASC')
-            ->get(),
+            ->take(3)->get(),
            
             'hasRole'=>$this->hasRole
             
