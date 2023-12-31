@@ -4,13 +4,13 @@ namespace App\Livewire;
 
 use App\Models\dren;
 use Livewire\Component;
-use Livewire\WithPagination;
+
 
 
 
 class Drenindex extends Component
 {
-    use WithPagination;
+    
     protected $paginationTheme = 'bootstrap';
     public $code_dren, $nom_dren;
     public $search;
@@ -71,9 +71,7 @@ class Drenindex extends Component
     public function render()
     {
         return view('livewire.dren-index', [
-            'drens'=> Dren::where($this->orderField, 'LIKE', '%'.$this->search.'%')
-            ->orderBy($this->orderField, $this->orderDirection)
-            ->paginate(10)
+          
             
         ]);
     }

@@ -25,7 +25,7 @@ table{
     </style>
     <div class="container" >
         <div class="row d-flex justify-content-end mt-4">
-            <button class="btn btn-sm col-md-2 col-4 addStudent" data-bs-toggle="modal" data-bs-target="#modalStudent" wire:click='create()' style="display:non">ceer</button>
+            <button class="btn btn-sm col-md-2 col-4 addStudent" data-bs-toggle="modal" data-bs-target="#modalStudent" wire:click='create()' style="display:none"></button>
         </div>
         <!--liste des élèves -->
         <div class="row">
@@ -43,23 +43,14 @@ table{
                      @endif 
                     @endif
                     <div class="col-md-12 col-12 mt-5">
-                        <button class="studentclick" wire:model='ide'   data-bs-toggle="modal" data-bs-target="#modalStudentInfos" wire:click="studentInfo()"   style="display:none" ></button>
+                        <livewire:student-table :shareAnnee="$shareAnnee" :shareNiveau="$shareNiveau" /><button class="studentclick" wire:model='ide'   data-bs-toggle="modal" data-bs-target="#modalStudentInfos" wire:click="studentInfo()"   style="display:none" ></button>
                                                 <button class="multipleCheck" wire:model='idsSelects' wire:click="getIdArray" data-bs-toggle="modal" data-bs-target="#multipleEdit"></button>
                     </div>
                 </div>
             </div>
         </div>
         
-        <!--fin liste des élèves -->
-        <!-- modal formulaire inscription-->
-        @include('livewire.modal_form_students')
-        <!--fin modal -->
-        <!-- modal info student-->
-        @include('livewire.modalStudentInfos')
-        <!--fin modal -->
-        <!-- modal editMultiple-->
-        @include('livewire.multipleIdEdit_form')
-        <!--fin modal -->
+
 
     </div>
     <script>

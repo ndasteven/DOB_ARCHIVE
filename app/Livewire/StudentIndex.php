@@ -8,15 +8,15 @@ use App\Models\eleve;
 use App\Models\fiche;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
-use Livewire\WithPagination;
+
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Storage;
+
 
 
 
 class StudentIndex extends Component
 {
-    use WithPagination;
+   
     use WithFileUploads;
     
     protected $paginationTheme = 'bootstrap';
