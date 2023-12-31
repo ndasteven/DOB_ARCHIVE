@@ -1,5 +1,4 @@
 <div class="modal fade" id="modalSchoolInfos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" wire:ignore.self> 
-   
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content" style="background-color: #f4f7f7">
           <div class="modal-header shadow-2xl" style="background-color: #fff">

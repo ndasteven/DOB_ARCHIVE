@@ -1,6 +1,5 @@
 <div class="modal fade" id="multipleEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" wire:ignore.self>
-  <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet" wire:ignore.self>
-  <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js" wire:ignore.self></script>
+
   <div class="modal-dialog modal-fullscreen">
     <div class="modal-content">
       <div class="modal-header">

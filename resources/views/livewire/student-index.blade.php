@@ -50,12 +50,13 @@ table{
             </div>
         </div>
         
-        <!--fin liste des élèves -->
-     
+      
         <!-- modal info student-->
         @include('livewire.modalStudentInfos')
         <!--fin modal -->
-       
+        <!-- modal editMultiple-->
+        @include('livewire.multipleIdEdit_form')
+        <!--fin modal -->
 
     </div>
     <script>
