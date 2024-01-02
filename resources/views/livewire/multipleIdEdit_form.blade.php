@@ -4,7 +4,7 @@
   <div class="modal-dialog modal-fullscreen">
     <div class="modal-content">
       <div class="modal-header">
-       <a href=""> <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> </a>
+       <a> <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> </a>
       </div>
       <div class="modal-body">
         <div class="row">        

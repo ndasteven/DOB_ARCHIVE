@@ -104,6 +104,7 @@ class FicheIndex extends Component
                     $this->resetInput();
                     $this->fiche_nom==null; 
                     $this->dispatch('save');
+                    $this->dispatch('create')->to(ficheTable::class);
                 }else{
                     session()->flash("error", "Ce nom de la fiche existe déja dans la base de données");
                     $this->dispatch('error');
@@ -160,6 +161,7 @@ class FicheIndex extends Component
             $validate['fiche_nom'] = $this->fiche_nom;
             if($ficheInfo->update($validate)){
                 session()->flash("success", "Mise à jour effectué avec succès");
+                $this->dispatch('update')->to(ficheTable::class);
                 $this->dispatch('save');
             }else{
                 session()->flash("error", "Erreur de mise à jour");
@@ -168,6 +170,7 @@ class FicheIndex extends Component
         }else{
             if($ficheInfo->update($validate)){
                 session()->flash("success", "Mise à jour effectué avec succès");
+                $this->dispatch('update')->to(ficheTable::class);
                 $this->dispatch('save');
             }else{
                 session()->flash("error", "Erreur de mise à jour");

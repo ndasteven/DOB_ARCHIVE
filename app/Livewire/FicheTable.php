@@ -23,6 +23,9 @@ final class ficheTable extends PowerGridComponent
     public int $perPage = 5;
     public $shareAnnee;
     public array $perPageValues = [1, 5, 10, 20, 50];
+
+    #[\Livewire\Attributes\On('update')] //lors d'une mise a jour il ecoute le dispatch update qui lui a ete transferer par le comtrolleur studentindex.php et met a jout datatable powergrid
+    #[\Livewire\Attributes\On('create')] //lors d'une mise a jour il ecoute le dispatch create qui lui a ete transferer par le comtrolleur studentindex.php et met a jout datatable powergrid
     public function setUp(): array
     {
         $this->showCheckBox();
