@@ -214,7 +214,7 @@ class StudentIndex extends Component
             session()->flash("success", "Enregistrement effectué avec succès");
             $this->resetInput();
             $this->dispatch('save');
-            $this->dispatch('create')->to(studentTable::class);
+            $this->dispatch('create')->to(StudentTable::class);
             
         }else
         {
@@ -245,7 +245,7 @@ class StudentIndex extends Component
         $eleveupdate = eleve::find($this->id_eleve);
         if($eleveupdate->update($validate)){
             session()->flash("success", "Mise à jour effectué avec succès");
-            $this->dispatch('update')->to(studentTable::class);
+            $this->dispatch('update')->to(StudentTable::class);
         }else{
             session()->flash("error", "Erreur de mise à jour");
         } 
@@ -276,7 +276,7 @@ class StudentIndex extends Component
            
             if ($this->countTableIndex == $this->longueurTable) {
                 session()->flash("success", " Toutes les mises à jour ont été effectué avec succès");
-                $this->dispatch('update')->to(studentTable::class);
+                $this->dispatch('update')->to(StudentTable::class);
             }else{                
                 $this->verifyStudentSelect();       
             }
