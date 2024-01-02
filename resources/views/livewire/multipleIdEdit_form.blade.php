@@ -165,6 +165,10 @@
             <div class="col">
               <button class="btn btn-success col-12 " >
                Mettre à jour les informations de l'élève.
+               <span class="" wire:loading style="margin: 0;">
+                <div class="spinner-border" role="status" style="width: 15px; height: 15px">
+                </div>
+              </span>
               </button>
             </div>  
           </div>
@@ -174,7 +178,11 @@
               <a href="">
               <div class="btn btn-primary col-12 " >
                Retour.
-            </div>
+               <span class="" wire:loading style="margin: 0;">
+                <div class="spinner-border" role="status" style="width: 15px; height: 15px">
+                </div>
+              </span>
+              </div>
             </a>
             </div>  
           </div>
@@ -183,6 +191,9 @@
           </form>
         </div>
         {{--fi Formulaire de mise à jour--}}
+        <div class="modal-footer">
+          
+        </div>
       </div>
       
     </div>

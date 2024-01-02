@@ -117,7 +117,7 @@
             
             <div class="row mt-4" wire:loading.class="disabled">
               <div class="col-12 col-md mb-3">
-                <label for="formFile" class="form-label " @error('ecole_id') style="color: rgb(192, 79, 79)" @enderror> @if($creer) Selectionner un etablissement d'origine @endif @if($edit) <small>{{$ecole_origine}}</small> @endif .</label>
+                <label for="formFile" class="form-label " @error('ecole_id') style="color: rgb(192, 79, 79)" @enderror>Selectionner un établissement d'origine</label>
                 <div wire:ignore>
                   <select class=" ecole_O @error('ecole_id') is-invalid @enderror" id="select-beast"    wire:model='ecole_id' autocomplete="off">
                   </select>
@@ -158,6 +158,10 @@
                   @if($edit)
                   Modifier les informations de l'eleve
                   @endif.
+                  <span class="" wire:loading style="margin: 0;">
+                    <div class="spinner-border" role="status" style="width: 15px; height: 15px">
+                    </div>
+                  </span>
                 </button>
               </div>  
             </div>
@@ -167,7 +171,7 @@
           <!--fin Formulaire d'enregistrement-->
         </div>
         <div class="modal-footer">
-         
+          
         </div>
       </div>
     </div>
@@ -258,11 +262,18 @@
       select1.clear()
       select2.clear()
     });
-    @this.on('modifier',(data)=>{
-      select1.addItem(@this.ecole_A);
-      select.addItem(@this.ecole_id);
-      select2.addItem(@this.fiche_id);
-     select.lock()
+    @this.on('getEcoleOrigin',(data)=>{
+      select.lock()
+      select.addOption(event.detail.data);
+      select.addItem(event.detail.id); 
+    })
+    @this.on('getEcoleAccueil',(data)=>{
+      select1.addOption(event.detail.data);
+      select1.addItem(event.detail.id); 
+    })
+    @this.on('getFiche',(data)=>{
+      select2.addOption(event.detail.data);
+      select2.addItem(event.detail.id); 
     })
 });
 

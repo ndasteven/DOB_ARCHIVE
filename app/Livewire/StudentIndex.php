@@ -71,9 +71,7 @@ class StudentIndex extends Component
         $this->id_eleve=$id;
         $this->creer = false;
         $this->edit = true;
-        if($this->edit){
-            $this->dispatch('modifier');
-        }
+        
         $eleveupdate = eleve::findOrFail($id);
         $this->matricule = $eleveupdate->matricule;
         $this->nom = $eleveupdate->nom  ;
@@ -87,6 +85,18 @@ class StudentIndex extends Component
         $this->ecole_A = $eleveupdate->ecole_A;
         $this->fiche_id = $eleveupdate->fiche_id;
         $this->ecole_origine = $eleveupdate->ecole_origine;
+        if($this->edit){
+            //lors de la modification nous devons preremplir les tomselect de notre form avec les valeur de eleve 
+            $getEcoleOrigin = collect(ecole::select('id','NOMCOMPLs')->where('id',$eleveupdate->ecole_id)->first());
+            $getEcoleAccueil = collect(ecole::select('id','NOMCOMPLs')->where('id',$eleveupdate->ecole_A)->first());
+            $getFiche = collect(fiche::select('id','nom')->where('id',$eleveupdate->fiche_id)->first());
+                       
+            $this->dispatch('getEcoleOrigin', id:$eleveupdate->ecole_id, data:$getEcoleOrigin);
+            $this->dispatch('getEcoleAccueil', id:$eleveupdate->ecole_A, data:$getEcoleAccueil);
+            $this->dispatch('getFiche', id:$eleveupdate->fiche_id, data:$getFiche);
+            
+            //fin
+        }
         
     }
     
@@ -313,7 +323,7 @@ class StudentIndex extends Component
         $result = collect(ecole::select('id','NOMCOMPLs')->take(3)->where('NOMCOMPLs', 'like', '%'.$ecole.'%')->get());
         return $result;
     }
-    public function getFiche($fiche){// fountion qui fait une recherche des ecole grace a la saisi de utilisateur dans le tomSelect de la vue modal_form_student
+    public function getFiche($fiche){// fountion qui fait une recherche des fiches grace a la saisi de utilisateur dans le tomSelect de la vue modal_form_student
         $result = collect(fiche::select('id','nom', 'classe','type_fiche','annee')->take(3)->where('nom', 'like', '%'.$fiche.'%')->get());
         return $result;
     }
