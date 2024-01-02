@@ -80,12 +80,12 @@
                     <label for="validationCustom04" class="form-label">Série</label>
                     <select class="form-select @error('serie') is-invalid @enderror " id="validationCustom04"  wire:model='serie'  >
                       <option selected value="">choisir la série</option>
-                      <option value="A">A</option>
-                      <option value="C">C</option>
-                      <option value="G1">G1</option>
-                      <option value="G2">G2</option>
-                      <option value="F1">F1</option>
-                      <option value="F2">F2</option>
+                      <option value="A">2A</option>
+                      <option value="C">2C</option>
+                      <option value="G1">2G1</option>
+                      <option value="G2">2G2</option>
+                      <option value="F1">2F1</option>
+                      <option value="F2">2F2</option>
                     </select>
                     <div class="invalid-feedback">
                       veillez selectionner une série.
@@ -117,44 +117,31 @@
             
             <div class="row mt-4" wire:loading.class="disabled">
               <div class="col-12 col-md mb-3">
-                <label for="formFile" class="form-label " @error('ecole_id') style="color: rgb(192, 79, 79)" @enderror> @if($creer) Selectionner un etablissement d'origine @endif @if($edit) <small>{{$ecole_origine}}</small> @endif </label>
+                <label for="formFile" class="form-label " @error('ecole_id') style="color: rgb(192, 79, 79)" @enderror> @if($creer) Selectionner un etablissement d'origine @endif @if($edit) <small>{{$ecole_origine}}</small> @endif .</label>
                 <div wire:ignore>
-                  <select class="form-select ecole_O @error('ecole_id') is-invalid @enderror" id="select-beast"    wire:model='ecole_id' autocomplete="off">
-                    <option value="">selectionner l'école d'origine</option>
-                    @foreach ($ecole as $item)
-                    <option value="{{$item->id}}" style="z-index: 1;" >{{$item->NOMCOMPLs}}</option>
-                    @endforeach
+                  <select class=" ecole_O @error('ecole_id') is-invalid @enderror" id="select-beast"    wire:model='ecole_id' autocomplete="off">
                   </select>
                 </div>
                 <div class="invalid-feedback">
                   @error('ecole_id')Selectionner un établissement d'origine @enderror"
                 </div>
               </div>
-                <div class="col-12 col-md mb-3">
+
+              <div class="col-12 col-md mb-3">
                   <label for="formFile" class="form-label"  @error('ecole_A') style="color: rgb(192, 79, 79)" @enderror>Selectionner un etablissement d'accueil</label>
                   <div wire:ignore>
-                    <select class="form-select @error('ecole_A') is-invalid @enderror" id="select-beast-1" wire:model='ecole_A' autocomplete="off">
-                      <option value="">selectionner l'école d'accueil</option>
-                      @foreach ($ecole as $item)
-                      <option value="{{$item->id}}" style="z-index: 1;" >{{$item->NOMCOMPLs}}</option>
-                      @endforeach
+                    <select class=" @error('ecole_A') is-invalid @enderror" id="select-beast-1" wire:model='ecole_A' autocomplete="off">
                     </select>
-                  </div>
+                   </div>
                   <div class="invalid-feedback">
                     @error('ecole_A')Selectionner un établissement accueil @enderror"
                   </div>
-                
-                </div>
-              
-            </div>
+              </div>
+             </div>
             <div class="col mb-3" wire:loading.class="disabled">
               <label for="formFile" class="form-label"  @error('fiche_id') style="color: rgb(192, 79, 79)" @enderror>Selectionner la fiche d'orientation de l'élève</label>
               <div wire:ignore>
-                <select class="form-select @error('fiche_id') is-invalid @enderror" id="select-beast-2" wire:model='fiche_id' autocomplete="off">
-                  <option value="">selectionner la fiche d'orientation</option>fiche_ecole
-                  @foreach ($fiche as $item)
-                  <option value="{{$item->id}}" style="z-index: 1;" ><span style="display: none">{{$item->created_at}}</span>  {{$item->nom}} | {{$item->classe}} | {{$item->type_fiche}} | {{$item->annee}} | {{$item['fiche_ecole']->NOMCOMPLs}} | {{$item['fiche_dren']->nom_dren}}  </option>
-                  @endforeach
+                <select class=" @error('fiche_id') is-invalid @enderror" id="select-beast-2" wire:model='fiche_id' autocomplete="off">
                 </select>
               </div>
               <div class="invalid-feedback">
@@ -185,33 +172,70 @@
       </div>
     </div>
 <!--composant de loading permettant de patientez pendant chargement des datas provenant du controller livewire-->
-@include('livewire.loading')
+
 <!--fin loading -->
   </div>
-       
+  @script       
 <script>
  document.addEventListener('livewire:initialized', () => {
-    var select = new TomSelect("#select-beast",{
-    create: true,
-    sortField: {
-    field: "text",
-    direction: "asc"
+
+  //fonction qui permet le select de tom select en ecoutant getEcole() dans studentIndex.php lors de la saisie
+    function searchEcoleSelect(id){
+      return new TomSelect(id,{
+      sortField: {
+      field: "text",
+      direction: "asc"
+    },
+    valueField:'id',
+    labelField:'NOMCOMPLs',
+    searchField:'NOMCOMPLs',
+
+    load: function(query, callback){
+      
+      $wire.getEcole(query).then(results=>{
+
+        callback(results);
+      }).catch(()=>{
+        callback();
+      })
+    },
+    render:{
+      option:function(item, escape){
+        return `<div> ${escape(item.NOMCOMPLs)} </div>`
+      }
+    },
+    item: function(item, escape){
+        return `<div> ${escape(item.NOMCOMPLs)} </div>`
     }
     });
-
-    var select1 = new TomSelect("#select-beast-1",{
-    create: true,
-    sortField: {
-    field: "text",
-    direction: "asc"
     }
-    });
+    var select = searchEcoleSelect('#select-beast')
+    var select1 =searchEcoleSelect('#select-beast-1')
+    var select2 =new TomSelect('#select-beast-2',{
+      sortField: {
+      field: "text",
+      direction: "desc"
+    },
+    valueField:'id',
+    labelField:'nom',
+    searchField:'nom',
 
-    var select2 = new TomSelect("#select-beast-2",{
-    create: true,
-    sortField: {
-    field: "text",
-    direction: "desc"
+    load: function(query, callback){
+      
+      $wire.getFiche(query).then(results=>{
+
+        callback(results);
+      }).catch(()=>{
+        callback();
+      })
+    },
+    render:{
+      option:function(item, escape){
+        return `<div> ${escape(item.nom)} | ${escape(item.type_fiche)}  </div>`
+      }
+    },
+    item: function(item, escape){
+        return `<div> ${escape(item.nom)}</div>`
     }
     });
     
@@ -243,3 +267,4 @@
 });
 
 </script>
+@endscript

@@ -104,7 +104,7 @@ class FicheIndex extends Component
                     $this->resetInput();
                     $this->fiche_nom==null; 
                     $this->dispatch('save');
-                    $this->dispatch('create')->to(ficheTable::class);
+                    $this->dispatch('create')->to(FicheTable::class);
                 }else{
                     session()->flash("error", "Ce nom de la fiche existe déja dans la base de données");
                     $this->dispatch('error');

@@ -309,7 +309,14 @@ class StudentIndex extends Component
  
         return $array;
     }
-    
+    public function getEcole($ecole){// fountion qui fait une recherche des ecole grace a la saisi de utilisateur dans le tomSelect de la vue modal_form_student
+        $result = collect(ecole::select('id','NOMCOMPLs')->take(3)->where('NOMCOMPLs', 'like', '%'.$ecole.'%')->get());
+        return $result;
+    }
+    public function getFiche($fiche){// fountion qui fait une recherche des ecole grace a la saisi de utilisateur dans le tomSelect de la vue modal_form_student
+        $result = collect(fiche::select('id','nom', 'classe','type_fiche','annee')->take(3)->where('nom', 'like', '%'.$fiche.'%')->get());
+        return $result;
+    }
     public function render()
     {
         
