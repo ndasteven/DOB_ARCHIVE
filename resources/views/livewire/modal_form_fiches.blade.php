@@ -98,6 +98,7 @@
                         <option value="changement_serie">Changement de serie</option>
                         <option value="permutation">Permutation</option>
                         <option value="omission">Omission</option>
+                        <option value="reorientatio-reaffectation">Reorientatio-Reaffectation</option>
                     </select>
                     <div class="invalid-feedback">
                       @error('type_fiche')Selectionner le type de la fiche @enderror"

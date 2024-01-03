@@ -80,12 +80,12 @@
                     <label for="validationCustom04" class="form-label">Série</label>
                     <select class="form-select @error('serie') is-invalid @enderror " id="validationCustom04"  wire:model='serie'  >
                       <option selected value="">choisir la série</option>
-                      <option value="A">2A</option>
-                      <option value="C">2C</option>
-                      <option value="G1">2G1</option>
-                      <option value="G2">2G2</option>
-                      <option value="F1">2F1</option>
-                      <option value="F2">2F2</option>
+                      <option value="A">A</option>
+                      <option value="C">C</option>
+                      <option value="G1">G1</option>
+                      <option value="G2">G2</option>
+                      <option value="F1">F1</option>
+                      <option value="F2">F2</option>
                     </select>
                     <div class="invalid-feedback">
                       veillez selectionner une série.

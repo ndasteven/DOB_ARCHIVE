@@ -208,7 +208,7 @@ class StudentIndex extends Component
             'ecole_origine'=>'',
             'genre'=>'required|min:1',
             'dateNaissance'=>'',
-            'ecole_id' =>'required|min:1',
+            'ecole_id' =>'',
             'ecole_A' =>'required|min:1',
             'serie'=>'required|min:1',
             'fiche_id' =>'required|min:1',
