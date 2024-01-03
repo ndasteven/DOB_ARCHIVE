@@ -265,7 +265,7 @@
       )
     });
     @this.on('getEcoleOrigin',(data)=>{
-      select.lock()
+      //select.lock() // a bloque tres important pour ne pas modifier etablissement origine
       select.addOption(event.detail.data);
       select.addItem(event.detail.id); 
     })
