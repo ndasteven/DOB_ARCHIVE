@@ -106,8 +106,23 @@ class FicheIndex extends Component
                     $this->dispatch('save');
                     $this->dispatch('create')->to(FicheTable::class);
                 }else{
-                    session()->flash("error", "Ce nom de la fiche existe déja dans la base de données");
-                    $this->dispatch('error');
+                    $nom=trim($this->nom, " \t"); // je supprime des espace en fin du nom de la fiche s'il en a
+                    $Type_fiche=fiche::select('type_fiche')->where('nom','like', '%'.$nom.'%')->get();
+                    if(count($Type_fiche)>0){
+                        if($Type_fiche[0]->type_fiche!=$this->type_fiche){//on verifie si la fiche dont le nom existe a le meme type que la fiche qui est entrain detre creer 
+                        fiche::create($validate);
+                        session()->flash("success", "Enregistrement effectué avec succès");
+                        $this->resetInput();
+                        $this->fiche_nom==null; 
+                        $this->dispatch('save');
+                        $this->dispatch('create')->to(FicheTable::class);
+                        }else{// si oui le type est identique aussi alors la fiche existe
+                        session()->flash("error", "Ce nom de la fiche existe déja dans la base de données");
+                        $this->dispatch('error');  
+                    }
+                    }
+                    
+                    
                 }
                     
             }else{
@@ -139,6 +154,9 @@ class FicheIndex extends Component
         $this->ecole_id = $ficheEdit[0]->ecole_id;
         $this->dren_id = $ficheEdit[0]->dren_id;
         $this->dispatch('check');
+
+        $getEcoleOrigin = collect(ecole::select('id','NOMCOMPLs')->where('id',$this->ecole_id)->first());
+        $this->dispatch('getEcoleOrigin', id:$this->ecole_id, data:$getEcoleOrigin);
        
     }
     public function updateFiche(){
@@ -178,6 +196,18 @@ class FicheIndex extends Component
             }   
         }
        
+    }
+    public function getEcole($ecole){// fountion qui fait une recherche des ecole grace a la saisi de utilisateur dans le tomSelect de la vue modal_form_student
+        $mots = explode(' ', $ecole);
+        $result = collect(ecole::select('id','NOMCOMPLs')->where(function($query) use ($mots) {
+            foreach ($mots as $mot) {
+                $query->where('NOMCOMPLs', 'like', '%' . $mot . '%');
+            }
+        })
+        ->orderBy('created_at', 'desc')  // Tri par date de création décroissante
+        ->take(3)
+        ->get());
+        return $result;
     }
     public function render()
     {

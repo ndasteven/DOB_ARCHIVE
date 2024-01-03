@@ -23,6 +23,9 @@
             @endif
            --}}
             <!--Message alert-->
+            <div class="alert alert-warning" style=" @if (session()->has('error')) display:block @else display:none @endif ">
+              {{ session('error') }}
+            </div>
             <form @if ($creer) wire:submit.prevent='storeFiche'  @endif @if ($edit) wire:submit.prevent='updateFiche()' @endif' enctype="multipart/form-data">
               @csrf
                 <div class="row mb-6">
@@ -52,7 +55,7 @@
                                     <small style="color: red"><i class="bi bi-file-earmark-pdf-fill" style="color:red;"> voir la fiche </i></small>
                                   </a>
                                   <ul class="dropdown-menu">
-                                      <embed type="application/pdf" src="data:application/pdf;base64,{{ base64_encode(file_get_contents($fiche_nom->getRealPath()))}}" width="600px" height="400px">
+                                     <embed type="application/pdf" src="data:application/pdf;base64,{{ base64_encode(file_get_contents($fiche_nom->getRealPath()))}}" width="600px" height="400px">
                                   </ul>
                                 </div>
                                 @endif
@@ -129,7 +132,7 @@
                         opacity: 0.8;
                       }
                     </style>
-                    <div class="col-md col-12" wire:loading.class="disabled">
+                    <div class="col-md col-12" >
                         <label for="formFile" class="form-label" >Selectionner la DREN de la fiche</label>
                         <div wire:ignore>
                           <select class="form-select  @error('dren_id') is-invalid @enderror" id="select-dren" wire:model='dren_id' autocomplete="off" >
@@ -143,14 +146,10 @@
                             @error('dren_id')Selectionner une DREN @enderror
                         </div>
                     </div>
-                    <div class="col-md col-12 mb-3" wire:loading.class="disabled">
+                    <div class="col-md col-12 mb-3" >
                         <label for="formFile" class="form-label">Selectionner l'etablissement de la fiche</label>
                         <div wire:ignore>
-                          <select class="form-select @error('ecole_id') is-invalid @enderror" id="select-beast" wire:model='ecole_id' autocomplete="off" style="z-index: 2;" >
-                            <option value="">selectionner une école</option>
-                            @foreach ($ecole as $item)
-                            <option value="{{$item->id}}" style="z-index: 1;" >{{$item->NOMCOMPLs}}</option>
-                            @endforeach
+                          <select class=" form-select @error('ecole_id') is-invalid @enderror" id="select-beast" wire:model='ecole_id' autocomplete="off" style="z-index: 2;" >
                           </select>
                         </div>
                         <div class="invalid-feedback">
@@ -170,6 +169,10 @@
                 <div class="col">
                   <button class="btn btn-success col-12" wire:loading.attr="disabled">
                     @if($creer) Ajouter une fiche @endif @if($edit) Modifier la fiche @endif .
+                    <span class="" wire:loading style="margin: 0;">
+                      <div class="spinner-border" role="status" style="width: 15px; height: 15px">
+                      </div>
+                    </span>
                 </button>  
                 </div>
                 
@@ -186,21 +189,56 @@
       
     </div>
     <!--composant de loading permettant de patientez pendant chargement des datas provenant du controller livewire-->
-    @include('livewire.loading')
+   
     <!--fin loading -->
 
 
   </div>
+  @script
   <script>
   document.addEventListener('livewire:initialized', () => {
-    
-        var select = new TomSelect("#select-beast",{
-        create: true,
-        sortField: {
-        field: "text",
-        direction: "asc"
-    }    
+
+    //fonction qui permet le select de tom select en ecoutant getEcole() dans studentIndex.php lors de la saisie
+    function searchEcoleSelect(id){
+      return new TomSelect(id,{
+      sortField: {
+      field: "text",
+      direction: "asc"
+    },
+    valueField:'id',
+    labelField:'NOMCOMPLs',
+    searchField:'NOMCOMPLs',
+
+    load: function(query, callback){
+      
+      if (query === '') {
+                $wire.getEcole('').then(results => {
+                    callback(results.slice(0, 3));  // Prend les trois premiers résultats
+                }).catch(() => {
+                    callback();
+                });
+      } else {
+                // Chargez les résultats normalement lors de la saisie
+                $wire.getEcole(query).then(results => {
+                    callback(results);
+                }).catch(() => {
+                    callback();
+                });
+            }
+    },
+    render:{
+      option:function(item, escape){
+        return `<div> ${escape(item.NOMCOMPLs)} </div>`
+      }
+    },
+    item: function(item, escape){
+        return `<div> ${escape(item.NOMCOMPLs)} </div>`
+    }
     });
+    }
+    
+    var select = searchEcoleSelect('#select-beast')
+
     var select1 = new TomSelect("#select-dren",{
         create: true,
         sortField: {
@@ -237,11 +275,13 @@
     });
     @this.on('check', (data)=>{
       select1.addItem(@this.dren_id);
-      select.addItem(@this.ecole_id);
     })
-    @this.on('uploaded', (data)=>{
-     
+
+    @this.on('getEcoleOrigin',(data)=>{
+      select.addOption(event.detail.data);
+      select.addItem(event.detail.id); 
     })
+    
     $('.closeformUpdateFiche').on('click', function(e){
       $('#modal_form_fiche').modal('hide')  
       $('#modalFicheInfos').modal('show') 
@@ -249,3 +289,4 @@
 })
   
   </script>
+  @endscript

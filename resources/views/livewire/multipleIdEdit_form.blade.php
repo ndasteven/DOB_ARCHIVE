@@ -126,7 +126,7 @@
           
           <div class="row mt-4" wire:loading.class="disabled">
             <div class="col mb-3">
-              <label for="formFile" class="form-label " @error('ecole_id') style="color: rgb(192, 79, 79)" @enderror> Selectionner un etablissement d'origine</label>
+              <label for="formFile" class="form-label " @error('ecole_id') style="color: rgb(192, 79, 79)" @enderror>@if(strlen($ecole_origine)>0) <small>{{$ecole_origine}}</small> @else  Etablissement d'origine  @endif .</label>
               <div wire:ignore>
                 <select disabled class="@error('ecole_id') is-invalid @enderror" id="select_ecole_O" wire:model='ecole_id' autocomplete="off">
                 </select>
@@ -261,9 +261,16 @@
         return `<div> ${escape(item.nom)}</div>`
     }
     });
+
+    @this.on('getEcoleOrigin',(data)=>{ //quand la fonction  est activer dans le controlleur studentIndex.php il declache se script de verification de etablissement origine pour mettre a jour dans le selcec ecole O
+      select.lock()
+      select.addOption(event.detail.data);
+      select.addItem(event.detail.id); 
+    })
+   
         @this.on('getIdArray', () => {
         })
-      @this.on('verifyStudentSelect', ()=>{ // quand la fonction verityStudentSelect est activer dans le controlleur studentIndex.php il declache se script de verification de etablissement origine pour mettre a jour dans le selcec ecole O
+      @this.on('verifyStudentSelect', ()=>{ // 
         
         var checko= setInterval(() => {
          var i=0

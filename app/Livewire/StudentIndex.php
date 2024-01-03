@@ -116,12 +116,20 @@ class StudentIndex extends Component
         $this->matricule=$this->nom=$this->prenom=$this->genre=$this->dateNaissance=$this->ecole_id=$this->ecole_A=$this->classe=$this->serie=$this->fiche_id=$this->annee='';
         
     }
+    
     public function verifyStudentSelect(){
+        
         $requete=eleve::where('eleves.id',$this->idsSelects[$this->countTableIndex] );
         $this->elevemultipleUpdate=$requete->get();
+
+         //lors de la modification nous devons preremplir les tomselect de notre form avec les valeur de eleve 
+         $getEcoleOrigin = collect(ecole::select('id','NOMCOMPLs')->where('id',$this->elevemultipleUpdate[0]->ecole_id)->first());
+         $this->dispatch('getEcoleOrigin', id:$this->elevemultipleUpdate[0]->ecole_id, data:$getEcoleOrigin);
+
         if(strlen($this->elevemultipleUpdate[0]->ecole_id)==null){
+
             if(strlen($this->elevemultipleUpdate[0]->ecole_origine)!=null){
-                
+                $this->ecole_origine = $this->elevemultipleUpdate[0]->ecole_origine;
                 $words= '%'.$this->elevemultipleUpdate[0]->ecole_origine.'%' ;
                 $son_ecole_origin=ecole::where('NOMCOMPLs','like', $words)->get();
                 if(count($son_ecole_origin)==0){
@@ -320,11 +328,27 @@ class StudentIndex extends Component
         return $array;
     }
     public function getEcole($ecole){// fountion qui fait une recherche des ecole grace a la saisi de utilisateur dans le tomSelect de la vue modal_form_student
-        $result = collect(ecole::select('id','NOMCOMPLs')->take(3)->where('NOMCOMPLs', 'like', '%'.$ecole.'%')->get());
+        $mots = explode(' ', $ecole);
+        $result = collect(ecole::select('id','NOMCOMPLs')->where(function($query) use ($mots) {
+            foreach ($mots as $mot) {
+                $query->where('NOMCOMPLs', 'like', '%' . $mot . '%');
+            }
+        })
+        ->orderBy('created_at', 'desc')  // Tri par date de création décroissante
+        ->take(3)
+        ->get());
         return $result;
     }
     public function getFiche($fiche){// fountion qui fait une recherche des fiches grace a la saisi de utilisateur dans le tomSelect de la vue modal_form_student
-        $result = collect(fiche::select('id','nom', 'classe','type_fiche','annee')->take(3)->where('nom', 'like', '%'.$fiche.'%')->get());
+        $mots = explode(' ', $fiche);
+        $result = collect(fiche::select('id','nom', 'classe','type_fiche','annee')->where(function($query) use ($mots) { //quelque soit la disposition tu mot saisi si ca existe dans le nom il trouve
+            foreach ($mots as $mot) {
+                $query->where('nom', 'like', '%' . $mot . '%');
+            }
+        })
+        ->orderBy('created_at', 'desc')  // Tri par date de création décroissante
+        ->take(3)
+        ->get());
         return $result;
     }
     public function render()

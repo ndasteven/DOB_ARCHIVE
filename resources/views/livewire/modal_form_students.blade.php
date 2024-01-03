@@ -115,9 +115,9 @@
               }
             </style>
             
-            <div class="row mt-4" wire:loading.class="disabled">
+            <div class="row mt-4" >
               <div class="col-12 col-md mb-3">
-                <label for="formFile" class="form-label " @error('ecole_id') style="color: rgb(192, 79, 79)" @enderror>Selectionner un établissement d'origine</label>
+                <label for="formFile" class="form-label " @error('ecole_id') style="color: rgb(192, 79, 79)" @enderror>@if($creer) Selectionner un etablissement d'origine @endif @if($edit) <small>{{$ecole_origine}}</small> @endif .</label>
                 <div wire:ignore>
                   <select class=" ecole_O @error('ecole_id') is-invalid @enderror" id="select-beast"    wire:model='ecole_id' autocomplete="off">
                   </select>
@@ -138,7 +138,7 @@
                   </div>
               </div>
              </div>
-            <div class="col mb-3" wire:loading.class="disabled">
+            <div class="col mb-3" >
               <label for="formFile" class="form-label"  @error('fiche_id') style="color: rgb(192, 79, 79)" @enderror>Selectionner la fiche d'orientation de l'élève</label>
               <div wire:ignore>
                 <select class=" @error('fiche_id') is-invalid @enderror" id="select-beast-2" wire:model='fiche_id' autocomplete="off">
@@ -261,6 +261,11 @@
       select.clear()
       select1.clear()
       select2.clear()
+      Swal.fire(
+      'Effectué',
+      'Enregistrement effectué avec succès',
+      'success'
+      )
     });
     @this.on('getEcoleOrigin',(data)=>{
       select.lock()
