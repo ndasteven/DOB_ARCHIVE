@@ -109,11 +109,7 @@
                 </div>
                 
             </div>           
-            <style>
-              .disabled{
-                opacity: 0.8;
-              }
-            </style>
+            
             
             <div class="row mt-4" >
               <div class="col-12 col-md mb-3">
