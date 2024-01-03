@@ -86,6 +86,7 @@
                       <option value="G2">G2</option>
                       <option value="F1">F1</option>
                       <option value="F2">F2</option>
+                      <option value="AB">AB</option>
                     </select>
                     <div class="invalid-feedback">
                       veillez selectionner une série.
