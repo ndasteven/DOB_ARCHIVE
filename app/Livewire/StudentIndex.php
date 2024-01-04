@@ -226,6 +226,8 @@ class StudentIndex extends Component
             if(strlen($this->ecole_id)!=0){
                 $ecole = ecole::where('id','=',$this->ecole_id)->get();
                 $validate['ecole_origine']=$ecole[0]->NOMCOMPLs;
+            }else{
+                $validate['ecole_id']= NULL;
             }
             
             eleve::create($validate);
