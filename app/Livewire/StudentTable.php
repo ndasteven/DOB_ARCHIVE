@@ -70,19 +70,35 @@ final class studentTable extends PowerGridComponent
     public function datasource(): Builder
     {
         
-            return eleve::query()
-            ->leftJoin('ecoles', function($ecole){
-                $ecole->on('eleves.ecole_A','=','ecoles.id');  
-            })
-            
-            ->leftJoin('fiches', function($fiche){
-                $fiche->on('eleves.fiche_id','=','fiches.id');
-            })
-            ->where('eleves.annee',"LIKE", "%".$this->shareAnnee."%")
-            ->where('eleves.classe',"LIKE", "%".$this->shareNiveau."%")
-            ->select('eleves.*','eleves.id as id_eleves', 'eleves.classe as eleve_classe','eleves.matricule as eleve_matricule','eleves.nom as eleve_nom', 'eleves.prenom as eleve_prenom',
-             'ecoles.NOMCOMPLs as ecole_nom', 'fiches.nom as fiche_nom','fiches.fiche_nom',
-                'eleves.annee as eleve_annee');  
+        $query=eleve::query()
+        ->leftJoin('ecoles', function($ecole){
+            $ecole->on('eleves.ecole_A','=','ecoles.id');  
+        })
+        
+        ->leftJoin('fiches', function($fiche){
+            $fiche->on('eleves.fiche_id','=','fiches.id');
+        })
+        
+        ->select('eleves.*','eleves.id as id_eleves', 'eleves.classe as eleve_classe','eleves.matricule as eleve_matricule','eleves.nom as eleve_nom', 'eleves.prenom as eleve_prenom',
+        'ecoles.NOMCOMPLs as ecole_nom', 'fiches.nom as fiche_nom','fiches.fiche_nom',
+        'eleves.annee as eleve_annee');
+
+        if (strlen($this->shareAnnee) > 0) {
+            // Ajouter une condition where si la longueur est > 0
+            $query->where('eleves.annee', 'LIKE', '%' . $this->shareAnnee . '%');
+        } else {
+            // Ajouter une condition orWhere si la longueur n'est pas > 0
+            $query->orWhere('eleves.annee', 'LIKE', '%' . $this->shareAnnee . '%');
+        }
+        if (strlen($this->shareAnnee) > 0) {
+            // Ajouter une condition where si la longueur est > 0
+            $query->where('eleves.annee', 'LIKE', '%' . $this->shareNiveau . '%');
+        } else {
+            // Ajouter une condition orWhere si la longueur n'est pas > 0
+            $query->orWhere('eleves.annee', 'LIKE', '%' . $this->shareNiveau . '%');
+        }
+
+        return  $query;  
  
     }
 
