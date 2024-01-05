@@ -78,8 +78,8 @@ final class studentTable extends PowerGridComponent
         ->leftJoin('fiches', function($fiche){
             $fiche->on('eleves.fiche_id','=','fiches.id');
         })
-        ->where('eleves.annee',"LIKE", "%".$this->shareAnnee."%")
-        ->where('eleves.classe',"LIKE", "%".$this->shareNiveau."%")
+        //->where('eleves.annee',"LIKE", "%".$this->shareAnnee."%")
+        //->where('eleves.classe',"LIKE", "%".$this->shareNiveau."%")
         ->select('eleves.*','eleves.id as id_eleves', 'eleves.classe as eleve_classe','eleves.matricule as eleve_matricule','eleves.nom as eleve_nom', 'eleves.prenom as eleve_prenom',
          'ecoles.NOMCOMPLs as ecole_nom', 'fiches.nom as fiche_nom','fiches.fiche_nom',
             'eleves.annee as eleve_annee'); 
